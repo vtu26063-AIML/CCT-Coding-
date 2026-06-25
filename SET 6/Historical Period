@@ -1,0 +1,55 @@
+import java.util.*;
+
+public class Main {
+
+    static long kadaneLeft(long[] a, long[] left) {
+        long cur = a[0];
+        left[0] = a[0];
+
+        for (int i = 1; i < a.length; i++) {
+            cur = Math.max(a[i], cur + a[i]);
+            left[i] = Math.max(left[i - 1], cur);
+        }
+        return left[a.length - 1];
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+
+        long[] a = new long[n];
+
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextLong();
+        }
+
+        long[] left = new long[n];
+        long[] right = new long[n];
+
+        long cur = a[0];
+        left[0] = a[0];
+
+        for (int i = 1; i < n; i++) {
+            cur = Math.max(a[i], cur + a[i]);
+            left[i] = Math.max(left[i - 1], cur);
+        }
+
+        cur = a[n - 1];
+        right[n - 1] = a[n - 1];
+
+        for (int i = n - 2; i >= 0; i--) {
+            cur = Math.max(a[i], cur + a[i]);
+            right[i] = Math.max(right[i + 1], cur);
+        }
+
+        long ans = Long.MIN_VALUE;
+
+        for (int i = 0; i + k + 1 < n; i++) {
+            ans = Math.max(ans, left[i] + right[i + k + 1]);
+        }
+
+        System.out.println(ans);
+    }
+}

@@ -1,0 +1,55 @@
+import java.util.*;
+
+public class Main {
+
+    static int R1, R2, N;
+
+    static int[] M = {0, 25, 16, 9, 4, 1, 0, 1, 4, 9, 16, 25, 36};
+
+    static int[] D = {
+            0, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1,
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+    };
+
+    static int[] daysInMonth = {
+            0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+    };
+
+    static long revenue(int tvRooms) {
+        long total = 0;
+
+        for (int month = 1; month <= 12; month++) {
+            for (int day = 1; day <= daysInMonth[month]; day++) {
+
+                int patients = Math.min(M[month] + D[day], N);
+
+                int tvPatients = Math.min(tvRooms, patients);
+                int nonTvPatients = patients - tvPatients;
+
+                total += (long) tvPatients * R2
+                        + (long) nonTvPatients * R1;
+            }
+        }
+
+        return total;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        N = sc.nextInt();
+        R1 = sc.nextInt();
+        R2 = sc.nextInt();
+
+        long target = sc.nextLong();
+
+        for (int tv = 0; tv <= N; tv++) {
+            if (revenue(tv) >= target) {
+                System.out.println(tv);
+                return;
+            }
+        }
+
+        System.out.println(N);
+    }
+}

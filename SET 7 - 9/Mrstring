@@ -1,0 +1,88 @@
+import java.util.*;
+
+public class Main {
+
+    static String[] words = new String[101];
+
+    static int countVowels(String s) {
+        int count = 0;
+        for (char ch : s.toCharArray()) {
+            if ("aeiou".indexOf(ch) != -1)
+                count++;
+        }
+        return count;
+    }
+
+    static String numberToWord(int n) {
+        if (!words[n].equals(""))
+            return words[n];
+
+        if (n > 15 && n < 20)
+            words[n] = words[n % 10] + "teen";
+        else if (n % 10 == 0)
+            words[n] = words[n / 10] + "ty";
+        else if (n > 100)
+            return "greater 100";
+        else
+            words[n] = words[(n / 10) * 10] + "-" + words[n % 10];
+
+        return words[n];
+    }
+
+    public static void main(String[] args) {
+
+        Arrays.fill(words, "");
+
+        words[0] = "zero";
+        words[1] = "one";
+        words[2] = "two";
+        words[3] = "three";
+        words[4] = "four";
+        words[5] = "five";
+        words[6] = "six";
+        words[7] = "seven";
+        words[8] = "eight";
+        words[9] = "nine";
+        words[10] = "ten";
+        words[11] = "eleven";
+        words[12] = "twelve";
+        words[13] = "thirteen";
+        words[14] = "fourteen";
+        words[15] = "fifteen";
+        words[20] = "twenty";
+        words[30] = "thirty";
+        words[40] = "forty";
+        words[50] = "fifty";
+        words[60] = "sixty";
+        words[70] = "seventy";
+        words[80] = "eighty";
+        words[90] = "ninety";
+        words[100] = "hundred";
+
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+
+        int d = 0;
+
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+            d += countVowels(numberToWord(arr[i]));
+        }
+
+        int pairs = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (arr[i] + arr[j] == d)
+                    pairs++;
+            }
+        }
+
+        if (pairs > 100)
+            System.out.println("greater 100");
+        else
+            System.out.println(numberToWord(pairs));
+    }
+}

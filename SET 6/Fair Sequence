@@ -1,0 +1,40 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        long sum = 0;
+        long maxPos = Long.MIN_VALUE;
+        long maxNeg = Long.MIN_VALUE;
+        int prevSign = 0;
+
+        for (int i = 0; i < n; i++) {
+            long x = sc.nextLong();
+
+            if (x > 0) {
+                if (prevSign > 0) {
+                    maxPos = Math.max(maxPos, x);
+                } else {
+                    if (prevSign < 0) sum += maxNeg;
+                    maxPos = x;
+                    prevSign = 1;
+                }
+            } else {
+                if (prevSign < 0) {
+                    maxNeg = Math.max(maxNeg, x);
+                } else {
+                    if (prevSign > 0) sum += maxPos;
+                    maxNeg = x;
+                    prevSign = -1;
+                }
+            }
+        }
+
+        if (prevSign > 0) sum += maxPos;
+        else sum += maxNeg;
+
+        System.out.println(sum);
+    }
+}
