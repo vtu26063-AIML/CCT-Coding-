@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        String a = sc.next();
+        String b = sc.next();
+
+        int operations = 0;
+
+        for (char ch = 'a'; ch <= 't'; ch++) {
+            List<Integer> list = new ArrayList<>();
+
+            for (int i = 0; i < n; i++) {
+                if (a.charAt(i) == ch && b.charAt(i) > ch) {
+                    System.out.println(-1);
+                    return;
+                }
+
+                if (a.charAt(i) > ch && b.charAt(i) == ch) {
+                    list.add(i);
+                }
+            }
+
+            if (!list.isEmpty()) {
+                operations++;
+                char min = 'z';
+
+                for (int idx : list) {
+                    min = (char)Math.min(min, a.charAt(idx));
+                }
+
+                for (int idx : list) {
+                    if (a.charAt(idx) == min) {
+                        a = a.substring(0, idx) + ch + a.substring(idx + 1);
+                    }
+                }
+            }
+        }
+
+        System.out.println(operations);
+    }
+}
